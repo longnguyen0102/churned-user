@@ -1,2 +1,2 @@
-# churned-user
+# Churned users
 Sử dụng Python để xây dựng Machine learning model giúp xác định những user sẽ trở thành churned users.
