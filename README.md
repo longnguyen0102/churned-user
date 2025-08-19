@@ -126,14 +126,14 @@ Using the whole dataset.
  print(f'Rows count: {df.shape[0]}\nColums count: {df.shape[1]}')
 ```
 
-![]()
+![churned_users_eda_1]()
 
 ```python
  # show data type
  df.info()
 ```
 
-![]()
+![churned_users_eda_2]()
 
 ```python
  # further checking on columns
@@ -152,27 +152,22 @@ Using the whole dataset.
 | max | 55630 | 1 | 61 | 3 | 127 | 5 | 6 | 5 | 22 | 1 | 26 | 16 | 16 | 46 | 324.99 |
 
 ```python
- 
  # checking unique values
  ## percentage of unique values
  num_unique = df.nunique().sort_values()
  print('---Percentage of unique values (%)---')
  print(100/num_unique)
-
 ```
 
-![]()
+![churned_users_eda_3]()
 
 ```python
- 
  # checking missing rows percentage
  missing_rows_percentage = df.isnull().any(axis=1).mean() * 100
  print(missing_rows_percentage)
-
 ```
 
-![]()
-
+![churned_users_eda_4]()
 
 ```python
  # checking missing data
@@ -187,22 +182,29 @@ Using the whole dataset.
    print(missing_percent[missing_percent > 0] * 100)
  else:
    print('None')
- 
- # check for duplicates
- ## show number of duplicated rows
- print('')
- print(f'Number of entirely duplicated rows: {df.duplicated().sum()}')
- ## show all duplicated rows
- df[df.duplicated()]
- ```
+```
 
-![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_eda_1.png)  
-![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_eda_2.png)
+![churned_users_eda_5]()
+
+```python
+ # cloning df to data_cleaned
+ data_cleaned = df.copy()
+
+ # drop rows have missing data
+ data_cleaned.dropna(axis=1, inplace=True)
+```
+
+```python 
+ # checking duplicate value
+ duplicate_count = data_cleaned.duplicated().sum()
+ print(duplicate_count)
+```
+
+![churned_users_eda_6]()  
 
 </details>
 
-➡️ 
-➡️ 
+➡️ Since the missing values are within the acceptable threshold (5%), we will drop the rows containing missing values.   
 
 <details>
  <summary><strong>Change data type of 'InvoiceNo' to string:</strong></summary>
