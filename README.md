@@ -187,11 +187,8 @@ Using the whole dataset.
 
 </details>
 
-➡️ This dataset has 8 columns and 541,909 records. Most columns have right data type:  
-- InvoiceNo (object) -> change to string data type for further handling.  
-- CustomerID (float64) -> can be changed to int64 if needed.  
-  
-➡️ The percentage of duplicated values is acceptable. Missing values in "CustomerID" are high (~25%), it will affect the analysis. They need to verify and fill up as much as possible. 5268 rows of duplicating contain duplicated information of "Quantity", "InvoiceDate", "CustomerID", "Country". These rows are acceptable because there will be a customer buying many products in a day from any country.  
+➡️ 
+➡️ 
 
 <details>
  <summary><strong>Change data type of 'InvoiceNo' to string:</strong></summary>
@@ -203,7 +200,7 @@ Using the whole dataset.
 
 </details>
 
-➡️ The purpose for this action: Easy for handling duplicated values.
+➡️ The purpose for this action:  
 
 <details>
  <summary><strong>Explore negative values of Quantity columns (Quantity < 0 and UnitPrice < 0):</strong></summary>
@@ -238,12 +235,9 @@ Using the whole dataset.
  
 </details>
 
-➡️ There are two reasons behind Quantity < 0:
-- Orders with InvoiceNo has C are cancelled orders.
-- Rows with UnitPrice = 0 are returned orders.
-
-➡️ Orders with UnitPrice < 0 are in "Adjust bad dept" state as noted in "Description" column.  
-➡️ We can drop these rows to segment customers precisely.  
+➡️ 
+➡️   
+➡️   
 
 <details>
  <summary><strong>Seperate "InvoiceDate" to "Day" and "Month" columns:</strong></summary>
@@ -259,7 +253,7 @@ Using the whole dataset.
 
 </details>
 
-➡️ The 'InvoiceDate' column is split into 'Day' and 'Month' to later identify the customer's most recent interaction date, which is essential for calculating the Recency metric.  
+➡️   
 
 #### Handle negative, missing values, duplicates:  
 
@@ -291,7 +285,7 @@ Using the whole dataset.
 
 </details>
 
-➡️ Remove all negative values in 'Quantity', 'UnitPrice' and 'InvoiceNo' with 'C' because they are cancelled orders.  
+➡️   
 
 <details>
  <summary><strong>Missing values:</strong></summary>
@@ -316,7 +310,7 @@ Using the whole dataset.
 
 </details>
 
-➡️ Drop all rows with 'CustomerID' is null. The reason for this action is cannot identify the customers.  
+➡️   
 
 <details>
  <summary><strong>Duplicated values:</strong></summary>
@@ -344,7 +338,7 @@ Using the whole dataset.
 
 </details>
 
-➡️ In this step, we drop all duplicated rows with same information from all columns "InvoiceNo", "StockCode", "InvoiceDate", "UnitPrice", "CustomerID", "Country". Then with the remaining result, keeping only the first rows for R-F-M calculation.  
+➡️   
 
 <details>
  <summary><strong>Create 'Sales' column (Quantity * Price):</strong></summary>
@@ -364,7 +358,7 @@ Using the whole dataset.
 
 </details>
 
-➡️ Taking max of 'Day' in order to identify the most recent date of interaction of customers.  
+➡️   
 
 ### 2️⃣ Data processing   
 
@@ -389,7 +383,8 @@ Using the whole dataset.
 
 </details>
 
-➡️ The Segmentation copy process involves duplicating a new Segmentation table to avoid interference with the original dataset, thereby preventing unintended data modifications. The transformation of the Segmentation table will split segments based on predefined RFM scores. These scores are currently separated by commas, so this process will parse them into the required segments accordingly.  
+➡️ 
+
 <details>
  <summary><strong>Calculating RFM</strong></summary>
  
@@ -429,14 +424,7 @@ Using the whole dataset.
 
  ![data_processing_3](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_data_processing_3.png)
 
-</details>
-
-**In this stage, RFM is calculated:**  
-  1. Recency is computed as the last purchase date minus the dataset’s maximum date, the low value the better. However, the convenience in label, we use negative value of Recency. That means **the bigger the better**, and ranking is from 1 = worst to 5 = best.  
-  2. Frequency measures how often a customer makes a purchase and is computed as counting the number of appearance of each customer, **the bigger the better**.  
-  3. Monetary represents the total of money spending from each customer, **the bigger the better**.  
-Afterward, the results of the three metrics are assigned scores on a scale from 1 to 5.
-In the final step, the combined RFM scores are matched against the Segmentation table to assign each customer to a corresponding segment.  
+</details> 
 
 <details>
  <summary><strong>Determine Loyal and Non Loyal and showing characteristic of Potential Loyalist:</strong></summary>
@@ -489,14 +477,6 @@ In the final step, the combined RFM scores are matched against the Segmentation 
  ```
 </details>
 
-|  | CustomerID | Recency | Frequency | Monetary | Start_Date | Reverse_Recency | R | F | M | RFM | Segment | RFM Score | Loyal_Status | Quantity_Average | Sales_Average | First_Quantity | First_Sales |
-|---|-----------|---------|-----------|----------|------------|-----------------|---|---|---|-----|---------|-----------|--------------|------------------|---------------|----------------|--------|
-| 0 | 12346.0 | 325 | 1 | 77183.60 | 2011-01-18 | -325 | 1 | 1 | 5 | 115 | Cannot Lose Them | 115 | Non Loyal | 74125.000000 | 77183.000000 | 74215 | 77183.6 |
-| 1 | 12347.0 | 2 | 182 | 4310.00 | 2010-12-07 | -2 | 5 | 5 | 5 | 555 | Champions | 555 | Non Loyal | 13.505495 | 23.681319 | 12 | 25.2 |
-| 2 | 12348.0 | 75 | 27 | 1595.64 | 2010-12-16 | -75 | 2 | 2 | 4 | 224 | At Risk | 224 | Non Loyal | 68.925926 | 59.097778 | 72 | 39.6 |
-| 3 | 12349.0 | 18 | 73 | 1757.55 | 2011-11-21 | -18 | 4 | 4 | 4 | 444 | Loyal | 444 | Loyal | 8.643836 | 24.076027 | 2 | 15.0 |
-| 4 | 12350.0 | 310 | 17 | 334.40 | 2011-02-02 | -310 | 1 | 2 | 2 | 122 | Hibernating customers | 122 | Non Loyal | 11.588235 | 19.670588 | 12 | 25.2 |
-
 ### 3️⃣ Visualization  
 
 <details>
@@ -538,10 +518,7 @@ In the final step, the combined RFM scores are matched against the Segmentation 
 
 ![](https://github.com/longnguyen0102/photo/blob/main/RFM_analysis-retail-python/RFM_analysis-retail-python_visualization_R_F_M.png)
 
-➡️ As can be seen from the histogram:  
-- **Recency (R):** The chart shows that most customers have high Recency scores (4 and 5), concentrated on the right side of the distribution. This indicates that a majority of customers have made recent purchases. However, there is still a significant portion of customers with low Recency scores (1, 2, or 3), suggesting they haven't purchased in a while.
-- **Frequency (F):** The frequency distribution is left-skewed, with most customers having low Frequency scores (1 and 2). This indicates that the majority of customers do not purchase frequently. A small segment of customers with high Frequency scores (4 and 5) represents those who buy very regularly.
-- **Monetary (M):** The Monetary distribution is also left-skewed, similar to Frequency. This suggests that most customers have low spending values. Only a small number of customers have high Monetary scores (4 and 5), representing high-value spenders.  
+➡️   
 
 <details>
  <summary><strong>Visualize final dataset with RFM:</strong></summary>
@@ -597,23 +574,18 @@ In the final step, the combined RFM scores are matched against the Segmentation 
 
 ### 4️⃣ Insights and Actions (drawing from both graphs of RFM and sales trending)  
 
-✔️ The **"Champions"** segment is the core revenue driver: The chart shows that the **"Champions"** group contributes the largest share of revenue—over 60%—despite representing only around 18% of the total customer base. This highlights the critical importance of this segment to SuperStore. These are the most frequent, recent, and high-spending customers.  
-➡️ **Action:** It is essential to focus on maintaining and enhancing the experience for **"Champions"** to ensure stable and sustainable revenue.
-
-✔️ The **"Loyal"** segment also makes a significant contribution: The **"Loyal"** customers account for approximately 10% of the total customer base and contribute a notable portion of revenue—over 10%.  
-➡️ **Action:** This is a high-potential segment that can be nurtured to become future **"Champions"** Targeted initiatives such as personalized offers, loyalty programs, or incentives could encourage them to increase purchase frequency and order value.  
-
-✔️ The **"Potential Loyalist"** segment shows promise but needs activation: The **"Potential Loyalist"** group represents a relatively high share of the customer base (11%) but contributes only around 3.2% of total revenue. This aligns with the typical characteristics of this segment—good Recency and Frequency, but low Monetary value.  
-➡️ **Action:** Targeted campaigns should aim to increase spending per transaction for this group in order to convert them into **"Loyal"** or even **"Champions"** over time. Strategies could include personalized upselling, product bundling, or limited-time promotions to encourage higher basket sizes.
-
-✔️ Based on the *sales trending* graph:  
-➡️ Quarter fourth is a good time for **upselling**. This is the time that customers will spend more money for preparing for Holiday Season. Upselling programs are focus on increasing average order value instead of discount.  
-➡️ Months in early and middle of the year are the time for launching **customer incentive and relation programs**. During these time, the need for buying is low. That is the reason for these programs to step in, they will attract more customers (even new ones) and increase customers' Frequency, like: price discount, buy 1 get 1, voucher for the next buying,...  
-➡️ Months before sales increasing (such as September) is the time for **"heat up the market"**. Launching early promotion programs, new products, new collections are not the bad idea.  
+✔️   
+➡️ 
+✔️   
+➡️  
+✔️   
+➡️ 
+✔️   
+➡️   
+➡️   
+➡️   
 
 ## 📌 Key Takeaways:  
-✔️ Understand how **RFM analysis** can be used to evaluate customer behavior based on purchase frequency and spending value.  
-
-✔️ **Classify customers** into specific segments using RFM scores, helping identify which segments require enhanced experiences and which should be retained and nurtured to move toward higher-value tiers.  
-
-✔️ Determine the **optimal timing** for launching promotional campaigns and upselling strategies, enabling the business to both retain existing customers and attract new ones.
+✔️  
+✔️   
+✔️  
