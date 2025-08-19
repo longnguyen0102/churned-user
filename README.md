@@ -152,16 +152,30 @@ Using the whole dataset.
 | max | 55630 | 1 | 61 | 3 | 127 | 5 | 6 | 5 | 22 | 1 | 26 | 16 | 16 | 46 | 324.99 |
 
 ```python
- # check null values
- df.isnull().sum()
  
  # checking unique values
  ## percentage of unique values
  num_unique = df.nunique().sort_values()
  print('---Percentage of unique values (%)---')
  print(100/num_unique)
+
+```
+
+![]()
+
+```python
  
- # check missing data
+ # checking missing rows percentage
+ missing_rows_percentage = df.isnull().any(axis=1).mean() * 100
+ print(missing_rows_percentage)
+
+```
+
+![]()
+
+
+```python
+ # checking missing data
  missing_value = df.isnull().sum().sort_values(ascending = False)
  missing_percent = df.isnull().mean().sort_values(ascending = False)
  print('')
