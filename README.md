@@ -140,7 +140,7 @@ Using the whole dataset.
  df.describe()
 ```
 
-| measure | CustomerID | Churn | Tenure | CityTier | WarehouseToHome | HourSpendOnApp | NumberOfDeviceRegistered | SatisfactionScore | NumberOfAddress | Complain | OrderAmountHikeFromlastyear | CouponUsed | OrderCount | DaySinceLastOrder | CashbackAmount |
+| | CustomerID | Churn | Tenure | CityTier | WarehouseToHome | HourSpendOnApp | NumberOfDeviceRegistered | SatisfactionScore | NumberOfAddress | Complain | OrderAmountHikeFromlastyear | CouponUsed | OrderCount | DaySinceLastOrder | CashbackAmount |
 |------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
 | count | 5630 | 5630 | 5366 | 5630 | 5379 | 5375 | 5630 | 5630 | 5630 | 5630 | 5365 | 5374 | 5372 | 5323 | 5630 |
 | mean | 52815.5 | 0.168384 | 10.189899 | 1.654707 | 15.639896 | 2.931535 | 3.688988 | 3.066785 | 4.214032 | 0.284902 | 15.707922 | 1.751023 | 3.008004 | 4.543491 | 177.223030 |
